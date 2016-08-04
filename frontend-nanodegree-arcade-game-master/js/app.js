@@ -16,8 +16,8 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-};
-// when reached ens of game
+
+// when reached end of game
     if (this.x > WIDTH) {
         allEnemies.splice(allEnemies.indexOf(this), 1);
     }
@@ -32,10 +32,10 @@ Enemy.prototype.render = function() {
 
 // for collisionDetection 
 Enemy.prototype.collisionDetect = function(enemyObj) {
-    if ((player.x <= enemyObj.x + 50 && player.x >= enemyObj.x - 50) && (player.y <= enemyObj.y + 50 && player.y >= enemyObj.y - 50)) {
+    if ((player.x <= enemyObj.x + 60 && player.x >= enemyObj.x - 60) && (player.y <= enemyObj.y + 60 && player.y >= enemyObj.y - 60)) {
         player = new Player(200, 425, mainChar);
         document.getElementById("score").innerHTML = 'Bug Attack! -20!';
-        scoreDec(25);
+        scoreDec(20);
     }
 };
 
@@ -70,7 +70,7 @@ var createEnemies = function() {
     if (allEnemies.length < 5) {
         var rand = Math.random();
         if (rand < 0.33) {
-            rand = 50;
+            rand = 60;
         } else if (rand > 0.66) {
             rand = 140;
         } else {
@@ -122,7 +122,7 @@ var scoreDec = function(dec) {
 };
 //Whether in boundary or out of boundary. Will subtracts points.
 Player.prototype.boundsDetect = function(x, y) {
-    if (x > 495 || x < 0 || y > 500 || y < -100) {
+    if (x > 495 || x < 0 || y > 600 || y < -100) {
         return false;
     } else
         return true;
@@ -130,8 +130,8 @@ Player.prototype.boundsDetect = function(x, y) {
 // Resets game after checking for a win
 Player.prototype.checkWin = function() {
     if (this.y > -100 && this.y < 0) {
-        scoreInc(50);
-        document.getElementById("info").innerHTML = 'You WON! + 50!';
+        scoreInc(60);
+        document.getElementById("info").innerHTML = 'You WON! + 60!';
         player = new Player(200, 425, mainChar);
     }
 };
@@ -143,10 +143,10 @@ function changeChar() {
     console.log(counter);
     switch (counter % 3) {
         case 0:
-            mainChar = 'images/enemy-bug.png';
+            mainChar = 'images/char-pink-girl.png';
             break;
         case 1:
-            mainChar = 'images/stone-block.png';
+            mainChar = 'images/char-boy.png';
             break;
         case 2:
             mainChar = 'images/char-horn-girl.png';
@@ -156,7 +156,7 @@ function changeChar() {
 }
 // Variables
 var TILE_SIZE = 100;
-var WIDTH = 450;
+var WIDTH = 460;
 var score = 0;
 var counter = 0;
 var mainChar = 'images/char-boy.png';
@@ -175,3 +175,4 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
