@@ -55,12 +55,7 @@ Player.prototype.render = function() {
 };
 
 //the update method for player, runs from engine.js checks for various occurences
-Player.prototype.update = function() {
 
-    this.checkWin();
-    createEnemies();
-
-};
 //If less than 5 bugs on the board. Adds to the array
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -122,7 +117,7 @@ var scoreDec = function(dec) {
 };
 //Whether in boundary or out of boundary. Will subtracts points.
 Player.prototype.boundsDetect = function(x, y) {
-    if (x > 495 || x < 0 || y > 600 || y < -100) {
+    if (x > 495 || x < 0 || y > 520 || y < -100) {
         return false;
     } else
         return true;
@@ -130,14 +125,14 @@ Player.prototype.boundsDetect = function(x, y) {
 // Resets game after checking for a win
 Player.prototype.checkWin = function() {
     if (this.y > -100 && this.y < 0) {
-        scoreInc(60);
+        this.changeScore(60, true);
         document.getElementById("info").innerHTML = 'You WON! + 60!';
         player = new Player(200, 425, mainChar);
     }
 };
 
 // Possibe charcater change
-function changeChar() {
+Player.prototype.changeChar = function() {
 
     counter++;
     console.log(counter);
@@ -175,4 +170,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
