@@ -1,3 +1,4 @@
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -19,7 +20,8 @@ Enemy.prototype.update = function(dt) {
 
 // when reached end of game
     if (this.x > WIDTH) {
-        allEnemies.splice(allEnemies.indexOf(this), 1);
+        // allEnemies.splice(allEnemies.indexOf(this), 1);
+       this.x = -100; 
     }
     this.collisionDetect(this);
     this.x += dt * this.speed;
@@ -55,6 +57,12 @@ Player.prototype.render = function() {
 };
 
 //the update method for player, runs from engine.js checks for various occurences
+Player.prototype.update = function() {
+
+    this.checkWin();
+    // createEnemies();
+
+};
 
 //If less than 5 bugs on the board. Adds to the array
 // Now instantiate your objects.
@@ -127,7 +135,9 @@ Player.prototype.checkWin = function() {
     if (this.y > -100 && this.y < 0) {
         this.changeScore(60, true);
         document.getElementById("info").innerHTML = 'You WON! + 60!';
-        player = new Player(200, 425, mainChar);
+        // player = (200, 425, mainChar);
+        this.x = 500;
+        this.y = 300;
     }
 };
 
@@ -157,6 +167,23 @@ var counter = 0;
 var mainChar = 'images/char-boy.png';
 
 var player = new Player(200, 425, mainChar);
+
+for (var x=0; x<5; x++) {
+        var rand = Math.random();
+        if (rand < 0.33) {
+            rand = 60;
+        } else if (rand > 0.66) {
+            rand = 140;
+        } else {
+            rand = 230;
+        }
+        var enemy = new Enemy(0, rand, TILE_SIZE);
+
+        allEnemies.push(enemy);
+}
+
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
