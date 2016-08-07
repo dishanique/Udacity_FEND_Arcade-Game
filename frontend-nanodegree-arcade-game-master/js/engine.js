@@ -13,12 +13,13 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
-Player.prototype.update = function() {
+// Player.prototype.update = function() {
 
-    this.checkWin();
-    createEnemies();
+//     this.checkWin();
+//     // createEnemies();
 
-};
+// };
+
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -188,4 +189,3 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 })(this);
-
