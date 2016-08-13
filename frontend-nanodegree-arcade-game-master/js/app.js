@@ -1,8 +1,8 @@
-
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
+
     this.x = x;
     this.y = y;
     this.speed = Math.random() * speed;
@@ -34,10 +34,15 @@ Enemy.prototype.render = function() {
 
 // for collisionDetection 
 Enemy.prototype.collisionDetect = function(enemyObj) {
-    if ((player.x <= enemyObj.x + 60 && player.x >= enemyObj.x - 60) && (player.y <= enemyObj.y + 60 && player.y >= enemyObj.y - 60)) {
-        player = new Player(200, 425, mainChar);
+    if ((player.x <= this.x + 60 && player.x >= enemyObj.x - 60) && (player.y <= enemyObj.y + 60 && player.y >= enemyObj.y - 60)) {
+        player.reset();
+
+Player.prototype.reset = function() {
+    this.x = 200;
+    this.y = 425;
+};
         document.getElementById("score").innerHTML = 'Bug Attack! -20!';
-        scoreDec(20);
+        player.scoreDec(20);
     }
 };
 
@@ -114,14 +119,14 @@ Player.prototype.handleInput = function(keyPush) {
     }
 };
 // For score
-var scoreInc = function(inc) {
-    score += inc;
-    document.getElementById("score").innerHTML = 'Score: ' + score;
+Player.prototype.scoreInc = function(inc) {
+    this.score += inc;
+    document.getElementById('score').innerHTML = 'Score: ' + score;
 };
 
-var scoreDec = function(dec) {
-    score -= dec;
-    document.getElementById("score").innerHTML = 'Score: ' + score;
+Player.prototype.scoreDec = function(dec) {
+    this.score -= dec;
+    document.getElementById('score').innerHTML = 'Score: ' + score;
 };
 //Whether in boundary or out of boundary. Will subtracts points.
 Player.prototype.boundsDetect = function(x, y) {
@@ -132,12 +137,13 @@ Player.prototype.boundsDetect = function(x, y) {
 };
 // Resets game after checking for a win
 Player.prototype.checkWin = function() {
-    if (this.y > -100 && this.y < 0) {
-        this.changeScore(60, true);
+ // console.log(this.y);
+    if (this.y < 0) {
+        // this.changeScore(60, true);
         document.getElementById("info").innerHTML = 'You WON! + 60!';
         // player = (200, 425, mainChar);
-        this.x = 500;
-        this.y = 300;
+        this.x = 200;
+        this.y = 425;
     }
 };
 
