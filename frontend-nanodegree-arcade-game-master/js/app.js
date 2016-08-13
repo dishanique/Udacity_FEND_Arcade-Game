@@ -34,10 +34,12 @@ Enemy.prototype.render = function() {
 
 // for collisionDetection 
 Enemy.prototype.collisionDetect = function(enemyObj) {
-    if ((player.x <= this.x + 60 && player.x >= enemyObj.x - 60) && (player.y <= enemyObj.y + 60 && player.y >= enemyObj.y - 60)) {
+    if ((player.x <= this.x + 60 && this.x >= enemyObj.x - 60) && (this.y <= enemyObj.y + 60 && this.y >= enemyObj.y - 60)) {
+        
         player.reset();
 
-Player.prototype.reset = function() {
+Player.prototype.reset = function() 
+{
     this.x = 200;
     this.y = 425;
 };
@@ -121,12 +123,12 @@ Player.prototype.handleInput = function(keyPush) {
 // For score
 Player.prototype.scoreInc = function(inc) {
     this.score += inc;
-    document.getElementById('score').innerHTML = 'Score: ' + score;
+    document.getElementById('score').innerHTML = 'Score: ' + this.score;
 };
 
 Player.prototype.scoreDec = function(dec) {
     this.score -= dec;
-    document.getElementById('score').innerHTML = 'Score: ' + score;
+    document.getElementById('score').innerHTML = 'Score: ' + this.score;
 };
 //Whether in boundary or out of boundary. Will subtracts points.
 Player.prototype.boundsDetect = function(x, y) {
@@ -139,20 +141,26 @@ Player.prototype.boundsDetect = function(x, y) {
 Player.prototype.checkWin = function() {
  // console.log(this.y);
     if (this.y < 0) {
-        // this.changeScore(60, true);
+        // player.scoreInc(60);
         document.getElementById("info").innerHTML = 'You WON! + 60!';
         // player = (200, 425, mainChar);
         this.x = 200;
         this.y = 425;
+//         player.reset();
+
+// Player.prototype.reset = function() {
+//     this.x = 200;
+//     this.y = 425;
+// };
     }
 };
 
 // Possibe charcater change
 Player.prototype.changeChar = function() {
 
-    counter++;
-    console.log(counter);
-    switch (counter % 3) {
+    this.counter++;
+    // console.log(counter);
+    switch (this.counter % 3) {
         case 0:
             mainChar = 'images/char-pink-girl.png';
             break;
@@ -164,12 +172,12 @@ Player.prototype.changeChar = function() {
             break;
     }
     player = new Player(200, 425, mainChar);
-}
+};
 // Variables
 var TILE_SIZE = 100;
 var WIDTH = 460;
-var score = 0;
-var counter = 0;
+this.score = 0;
+this.counter = 0;
 var mainChar = 'images/char-boy.png';
 
 var player = new Player(200, 425, mainChar);
