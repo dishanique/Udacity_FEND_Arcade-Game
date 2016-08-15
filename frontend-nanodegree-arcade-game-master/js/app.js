@@ -32,17 +32,13 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// for collisionDetection 
+// For collisionDetection 
 Enemy.prototype.collisionDetect = function(enemyObj) {
-    if ((player.x <= this.x + 60 && this.x >= enemyObj.x - 60) && (this.y <= enemyObj.y + 60 && this.y >= enemyObj.y - 60)) {
-        
-        player.reset();
+    if ((player.x <= this.x + 60 && player.x >= this.x - 60) && (player.y <= this.y + 60 && player.y >= this.y - 60)) {
 
-Player.prototype.reset = function() 
-{
-    this.x = 200;
-    this.y = 425;
-};
+        player.reset();
+        
+        player = new Player(200, 425, mainChar);
         document.getElementById("score").innerHTML = 'Bug Attack! -20!';
         player.scoreDec(20);
     }
@@ -57,6 +53,8 @@ var Player = function(x, y, mainChar) {
     this.sprite = mainChar;
 
 };
+
+
 // This class requires an update(), render() and
 // a handleInput() method.
 Player.prototype.render = function() {
@@ -138,6 +136,14 @@ Player.prototype.boundsDetect = function(x, y) {
         return true;
 };
 // Resets game after checking for a win
+// Previous code used below
+// Player.prototype.checkWin = function() {
+//     if (this.y > -100 && this.y < 0) {
+//         this.changeScore(60, true);
+//         document.getElementById("info").innerHTML = 'You WON! + 60!';
+//         player = new Player(200, 425, mainChar);
+//     }
+// };
 Player.prototype.checkWin = function() {
  // console.log(this.y);
     if (this.y < 0) {
@@ -146,6 +152,8 @@ Player.prototype.checkWin = function() {
         // player = (200, 425, mainChar);
         this.x = 200;
         this.y = 425;
+
+// Not sure where to define and place the reset function...ongoing difficulties 
 //         player.reset();
 
 // Player.prototype.reset = function() {
@@ -211,3 +219,4 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
