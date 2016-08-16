@@ -1,166 +1,68 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
+var Enemy = function(x, y) {
+    
+// Variables 
     this.x = x;
     this.y = y;
-    this.speed = Math.random() * speed;
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    this.counter = 0;
+   
+//Used for Collision Detection
+    this.left = this.x;
+    this.right = this.x + 50;
+    this.top = this.y;
+    this.bottom = this.y + 50;
+
+// Speed of enemies are random
+    this.speed = Math.floor(Math.random() * (300)) + 100;
+    
+  
     this.sprite = 'images/enemy-bug.png';
+}
+
+// For score
+// Player.prototype.scoreInc = function(inc) {
+//     this.score += inc;
+//     document.getElementById('score').innerHTML = 'Score: ' + this.score;
+// };
+
+// Player.prototype.scoreDec = function(dec) {
+//     this.score -= dec;
+//     document.getElementById('score').innerHTML = 'Score: ' + this.score;
+// };
+// Resets enemy to start for left of canvas
+Enemy.prototype.reset = function() {
+    this.x = -200; 
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+// Update the enemies position here
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
 
-// when reached end of game
-    if (this.x > WIDTH) {
-        // allEnemies.splice(allEnemies.indexOf(this), 1);
-       this.x = -100; 
+    this.x = this.x + (this.speed * dt);
+    // Resets enemy to start for right side of canvas
+      if(this.x > 505) {
+        this.reset();
     }
-    this.collisionDetect(this);
-    this.x += dt * this.speed;
 };
 
-// Draw the enemy on the screen, required method for game
+// Draws the enemy on the screen
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// For collisionDetection 
-Enemy.prototype.collisionDetect = function(enemyObj) {
-    if ((player.x <= this.x + 60 && player.x >= this.x - 60) && (player.y <= this.y + 60 && player.y >= this.y - 60)) {
-
-        player.reset();
-        
-        player = new Player(200, 425, mainChar);
-        document.getElementById("score").innerHTML = 'Bug Attack! -20!';
-        player.scoreDec(20);
-    }
-};
-
-// Now write your own player class
+// Player class
 var Player = function(x, y, mainChar) {
-
-    this.x = x;
-    this.y = y;
+    this.x = 200;
+    this.y = 400;
 
     this.sprite = mainChar;
 
-};
 
-
-// This class requires an update(), render() and
-// a handleInput() method.
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-//the update method for player, runs from engine.js checks for various occurences
-Player.prototype.update = function() {
-
-    this.checkWin();
-    // createEnemies();
-
-};
-
-//If less than 5 bugs on the board. Adds to the array
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-var allEnemies = [];
-// Place the player object in a variable called player
-var createEnemies = function() {
-    if (allEnemies.length < 5) {
-        var rand = Math.random();
-        if (rand < 0.33) {
-            rand = 60;
-        } else if (rand > 0.66) {
-            rand = 140;
-        } else {
-            rand = 230;
-        }
-        var enemy = new Enemy(0, rand, TILE_SIZE);
-
-        allEnemies.push(enemy);
-    }
-};
-
-Player.prototype.handleInput = function(keyPush) {
-
-    document.getElementById("info").innerHTML = 'Hurry or Else';
-    switch (keyPush) {
-        case 'left':
-            if (this.boundsDetect(this.x - TILE_SIZE, this.y)) {
-                this.x -= TILE_SIZE;
-            }
-            break;
-        case 'up':
-            if (this.boundsDetect(this.x, this.y - TILE_SIZE)) {
-                this.y -= TILE_SIZE;
-            }
-            break;
-        case 'right':
-            if (this.boundsDetect(this.x + TILE_SIZE, this.y)) {
-                this.x += TILE_SIZE;
-            }
-            break;
-        case 'down':
-            if (this.boundsDetect(this.x, this.y + TILE_SIZE)) {
-                this.y += TILE_SIZE;
-            }
-            break;
-        default:
-            break;
-    }
-};
-// For score
-Player.prototype.scoreInc = function(inc) {
-    this.score += inc;
-    document.getElementById('score').innerHTML = 'Score: ' + this.score;
-};
-
-Player.prototype.scoreDec = function(dec) {
-    this.score -= dec;
-    document.getElementById('score').innerHTML = 'Score: ' + this.score;
-};
-//Whether in boundary or out of boundary. Will subtracts points.
-Player.prototype.boundsDetect = function(x, y) {
-    if (x > 495 || x < 0 || y > 520 || y < -100) {
-        return false;
-    } else
-        return true;
-};
-// Resets game after checking for a win
-// Previous code used below
-// Player.prototype.checkWin = function() {
-//     if (this.y > -100 && this.y < 0) {
-//         this.changeScore(60, true);
-//         document.getElementById("info").innerHTML = 'You WON! + 60!';
-//         player = new Player(200, 425, mainChar);
-//     }
-// };
-Player.prototype.checkWin = function() {
- // console.log(this.y);
-    if (this.y < 0) {
-        // player.scoreInc(60);
-        document.getElementById("info").innerHTML = 'You WON! + 60!';
-        // player = (200, 425, mainChar);
-        this.x = 200;
-        this.y = 425;
-
-// Not sure where to define and place the reset function...ongoing difficulties 
-//         player.reset();
-
-// Player.prototype.reset = function() {
-//     this.x = 200;
-//     this.y = 425;
-// };
-    }
+    //Used for Collision Detection
+    this.left = this.x;
+    this.right = this.x + 50;
+    this.top = this.y;
+    this.bottom = this.y +50;
+    this.sprite= 'images/char-horn-girl.png';
 };
 
 // Possibe charcater change
@@ -179,36 +81,76 @@ Player.prototype.changeChar = function() {
             mainChar = 'images/char-horn-girl.png';
             break;
     }
-    player = new Player(200, 425, mainChar);
+    player = new Player(200, 400, mainChar);
 };
-// Variables
-var TILE_SIZE = 100;
-var WIDTH = 460;
-this.score = 0;
-this.counter = 0;
-var mainChar = 'images/char-boy.png';
+// Resets player for collision with the enemies
+Player.prototype.reset = function() {
+    this.x = 200;
+    this.y = 400;
+};
 
-var player = new Player(200, 425, mainChar);
+// Enemy.prototype.collisionDetect = function(enemyObj) {
+//     if ((player.x <= this.x + 60 && player.x >= this.x - 60) && (player.y <= this.y + 60 && player.y >= this.y - 60)) {
 
-for (var x=0; x<5; x++) {
-        var rand = Math.random();
-        if (rand < 0.33) {
-            rand = 60;
-        } else if (rand > 0.66) {
-            rand = 140;
-        } else {
-            rand = 230;
-        }
-        var enemy = new Enemy(0, rand, TILE_SIZE);
+//         player.reset();
+        
+//         player = new Player(200, 425, mainChar);
+//         document.getElementById("score").innerHTML = 'Bug Attack! -20!';
+//         player.scoreDec(20);
+//     }
+// };
+//Prevents player from going out of bounds on canvas
+Player.prototype.update = function() {
+    if (this.x < 5) {
+        this.x = 5;
+    } else if (this.x > 400) {
+        this.x = 400;
+    } else if (this.y < 2) {
+        this.y = 5;
+        // document.getElementById("info").innerHTML = 'You WON! + 60!';
+        // player.scoreInc(60);
+        player.reset();
+    } else if (this.y > 410) {
+        this.y = 410;
+    }
+};
 
-        allEnemies.push(enemy);
-}
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Use arrow keys to control the player
+Player.prototype.handleInput = function(key){
+    switch (key){
+        case 'left':
+            this.x = this.x - 100;
+            break;
+        case 'right':
+            this.x = this.x + 100;
+            break;
+        case 'up':
+            this.y = this.y - 90;
+            break;
+        case 'down':
+            this.y = this.y + 90;
+            break;
+    }
+};
 
 
+var enemy1 = new Enemy(-400, 225);
+var enemy2 = new Enemy(-200, 140);
+var enemy3 = new Enemy(-100, 60);
+var enemy4 = new Enemy(-500, 310);
+var enemy5 = new Enemy(-300, 225);
+var enemy6 = new Enemy(-600, 60);
 
+// Player as an onject
+var player = new Player();
 
 // This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Player.handleInput() method. 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -220,3 +162,18 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+// Enemies player must avoid!
+var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
+    
+// Collisions between enemies and player
+function checkCollisions () {
+allEnemies.forEach(function(enemy) {
+         if(enemy.x < player.x + 50 &&
+            enemy.x + 50 > player.x &&
+            enemy.y < player.y + 50 &&
+            enemy.y + 50 > player.y) {
+                
+                player.reset();
+            }
+        });
+}
