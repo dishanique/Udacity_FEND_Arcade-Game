@@ -162,7 +162,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-// Enemies player must avoid!
+// Enemies player must avoid!!
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
     
 // Collisions between enemies and player
