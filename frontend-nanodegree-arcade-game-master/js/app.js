@@ -17,7 +17,7 @@ var Enemy = function(x, y) {
     
   
     this.sprite = 'images/enemy-bug.png';
-}
+};
 
 // For score
 // Player.prototype.scoreInc = function(inc) {
@@ -148,6 +148,7 @@ var enemy6 = new Enemy(-600, 60);
 
 // Player as an onject
 var player = new Player();
+var mainChar = 'images/char-horn-girl.png';
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. 
@@ -162,7 +163,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-// Enemies player must avoid!!
+// Enemies player must avoid!
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
     
 // Collisions between enemies and player
