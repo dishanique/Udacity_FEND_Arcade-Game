@@ -19,16 +19,7 @@ var Enemy = function(x, y) {
     this.sprite = 'images/enemy-bug.png';
 };
 
-// For score
-// Player.prototype.scoreInc = function(inc) {
-//     this.score += inc;
-//     document.getElementById('score').innerHTML = 'Score: ' + this.score;
-// };
 
-// Player.prototype.scoreDec = function(dec) {
-//     this.score -= dec;
-//     document.getElementById('score').innerHTML = 'Score: ' + this.score;
-// };
 // Resets enemy to start for left of canvas
 Enemy.prototype.reset = function() {
     this.x = -200; 
@@ -55,7 +46,8 @@ var Player = function(x, y, mainChar) {
     this.y = 400;
 
     this.sprite = mainChar;
-
+    this.counter = 0;
+    this.score = 0;
 
     //Used for Collision Detection
     this.left = this.x;
@@ -63,6 +55,17 @@ var Player = function(x, y, mainChar) {
     this.top = this.y;
     this.bottom = this.y +50;
     this.sprite= 'images/char-horn-girl.png';
+};
+
+// For score
+Player.prototype.scoreInc = function(inc) {
+    this.score += inc;
+    document.getElementById('score').innerHTML = 'Score: ' + this.score;
+};
+
+Player.prototype.scoreDec = function(dec) {
+    this.score -= dec;
+    document.getElementById('score').innerHTML = 'Score: ' + this.score;
 };
 
 // Possibe charcater change
@@ -81,7 +84,8 @@ Player.prototype.changeChar = function() {
             mainChar = 'images/char-horn-girl.png';
             break;
     }
-    player = new Player(200, 400, mainChar);
+    // player = new Player(200, 400, mainChar);
+    this.sprite = mainChar;
 };
 // Resets player for collision with the enemies
 Player.prototype.reset = function() {
@@ -89,16 +93,11 @@ Player.prototype.reset = function() {
     this.y = 400;
 };
 
-// Enemy.prototype.collisionDetect = function(enemyObj) {
-//     if ((player.x <= this.x + 60 && player.x >= this.x - 60) && (player.y <= this.y + 60 && player.y >= this.y - 60)) {
+Player.prototype.resetScore = function() {
+    this.score = 0;
+    document.getElementById('score').innerHTML = 'Score: ' + this.score;
+};
 
-//         player.reset();
-        
-//         player = new Player(200, 425, mainChar);
-//         document.getElementById("score").innerHTML = 'Bug Attack! -20!';
-//         player.scoreDec(20);
-//     }
-// };
 //Prevents player from going out of bounds on canvas
 Player.prototype.update = function() {
     if (this.x < 5) {
@@ -107,8 +106,8 @@ Player.prototype.update = function() {
         this.x = 400;
     } else if (this.y < 2) {
         this.y = 5;
-        // document.getElementById("info").innerHTML = 'You WON! + 60!';
-        // player.scoreInc(60);
+        document.getElementById("info").innerHTML = 'You WON! + 60!';
+        player.scoreInc(60);
         player.reset();
     } else if (this.y > 410) {
         this.y = 410;
@@ -164,17 +163,4 @@ document.addEventListener('keyup', function(e) {
 });
 
 // Enemies player must avoid!
-var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
-    
-// Collisions between enemies and player
-function checkCollisions () {
-allEnemies.forEach(function(enemy) {
-         if(enemy.x < player.x + 50 &&
-            enemy.x + 50 > player.x &&
-            enemy.y < player.y + 50 &&
-            enemy.y + 50 > player.y) {
-                
-                player.reset();
-            }
-        });
-}
+var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];   
