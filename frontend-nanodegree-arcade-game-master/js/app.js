@@ -107,8 +107,8 @@ Player.prototype.update = function() {
     } else if (this.y < 2) {
         this.y = 5;
         document.getElementById("info").innerHTML = 'You WON! + 60!';
-        player.scoreInc(60);
-        player.reset();
+        this.scoreInc(60);
+        this.reset();
     } else if (this.y > 410) {
         this.y = 410;
     }
@@ -163,4 +163,4 @@ document.addEventListener('keyup', function(e) {
 });
 
 // Enemies player must avoid!
-var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];   
+var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];  
